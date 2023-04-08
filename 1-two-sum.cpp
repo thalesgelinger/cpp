@@ -1,31 +1,26 @@
-#include <algorithm>
 #include <iostream>
-#include <set>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
 
 vector<int> twoSum(vector<int> &nums, int target) {
-  set<int> result;
-  for (int i = 0; i < nums.size(); i++) {
-    for (int j = 0; j < nums.size(); j++) {
-      if (j == i) {
-        continue;
-      }
-      if (target == nums[i] + nums[j]) {
-        result.insert(i);
-        result.insert(j);
-      }
-    }
-  }
+  unordered_map<int, int> result;
 
-  vector<int> v(result.begin(), result.end());
-  return v;
+  for (int i = 0; i < nums.size(); i++) {
+    int complement = target - nums[i];
+    if (result.count(complement)) {
+      return {result[complement], i};
+    }
+
+    result[nums[i]] = i;
+  }
+  return {};
 }
 
 int main() {
-  vector<int> nums = {2, 7, 11, 15};
-  vector<int> result = twoSum(nums, 9);
+  vector<int> nums = {3, 2, 3};
+  vector<int> result = twoSum(nums, 6);
   for (int i : result) {
     cout << i << endl;
   }
